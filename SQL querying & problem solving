@@ -68,3 +68,15 @@ Group by player_id, streakresult, streakid
 Order by player_id, streakid)aa
 Where rnk = 1
 --
+
+ID 10322
+
+Write a query that'll identify returning active users. 
+A returning active user is a user that has made a second purchase within 7 days of any other of their purchases.
+Output a list of user_ids of these returning active users.
+-
+select DISTINCT a.user_id from amazon_transactions AS a, amazon_transactions as b
+where (a.user_id = b.user_id) and (a.id!=b.id) and (a.created_at - b.created_at) BETWEEN 0 AND 7
+ORDER BY user_id
+--
+
