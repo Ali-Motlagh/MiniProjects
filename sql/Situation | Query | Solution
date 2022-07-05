@@ -1,0 +1,81 @@
+Using SQL to query resluts of SS data science interview questions
+---
+--
+
+ID 10353
+Find the titles of workers that earn the highest salary. 
+Output the highest-paid title or multiple titles that share the highest salary.
+-
+select worker_title from title
+join worker on title.worker_ref_id = worker.worker_id
+where salary = (select max(salary) from worker)
+--
+
+ID 10352
+Calculate each user's average session time. A session is defined as the time difference between a page_load and page_exit. 
+For simplicity, assume a user has only 1 session per day and if there are multiple of the same events on that day, 
+consider only the latest page_load and earliest page_exit. 
+Output the user_id and their average session time
+-
+WITH cte AS 
+(Select
+user_id
+,MAX(timestamp) FILTER (Where action = 'page_load') AS load
+,MIN(timestamp) FILTER (Where action = 'page_exit') AS exit
+
+FROM
+facebook_web_log
+
+Group By
+user_id, DATE_PART('day', timestamp)
+)
+
+Select user_id, AVG(exit-load) AS average FROM cte 
+Group by 1 Having AVG(exit-load) IS NOT NULL
+--
+
+ID 2059
+You are given a table of tennis players and their matches that they could either win (W) or lose (L). 
+Find the longest streak of wins. A streak is a set of consecutive won matches of one player. 
+The streak ends once a player loses their next match. 
+Output the ID of the player or players and the length of the streak
+-
+# Creating unique IDs for each different streak
+WITH cte AS
+    (Select *,
+    (Select COUNT(*) as streakid
+        FROM players_results previous
+        WHERE current.player_id = previous.player_id
+        AND previous.match_date <= current.match_date
+        AND previous.match_result <> current.match_result)
+    from players_results current)
+
+# Output longest streak and the respective player
+SELECT DISTINCT player_id, streaklength
+FROM(
+
+# Aggregate by streak by counting the consecutive match results
+Select player_id,
+    match_result as streakresult,
+    streakid, 
+    count(*) AS streaklength, 
+    rank() OVER (Order by count(*) DESC) as rnk
+From cte
+
+# Filtering results for the highest winning streaks
+Where match_result = 'W'
+Group by player_id, streakresult, streakid
+Order by player_id, streakid)aa
+Where rnk = 1
+--
+
+ID 10322
+
+Write a query that'll identify returning active users. 
+A returning active user is a user that has made a second purchase within 7 days of any other of their purchases.
+Output a list of user_ids of these returning active users.
+-
+select DISTINCT a.user_id from amazon_transactions AS a, amazon_transactions as b
+where (a.user_id = b.user_id) and (a.id!=b.id) and (a.created_at - b.created_at) BETWEEN 0 AND 7
+ORDER BY user_id
+--
