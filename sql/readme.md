@@ -1,7 +1,7 @@
-### READ ME
+# READ ME
 
-# These are a collection of some examples of querying I've done in <b>MySQL<\b>
+## These are a collection of some examples of querying problems I've solved in <b>MySQL</b>
 
-## Included:
-1. Problem introduced as querying situation
-2. Executable query as solution
+### Included:
+1. Multiple problems introduced as querying situations
+2. Followed by an executable query to solve the problem
