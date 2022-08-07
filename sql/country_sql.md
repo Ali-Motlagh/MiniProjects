@@ -10,16 +10,15 @@ SELECT countries.name AS country, region, languages.name AS langauge,
 
 FROM countries AS c1<p>
 
- FULL JOIN languages AS l<p>
-
-  USING (code)
+ * FULL JOIN languages AS l<p>
+ ### * Match on code
+    * USING (code)
            
 
-  <t>FULL JOIN currencies AS c2
+  * FULL JOIN currencies AS c2
          
-<t> -- Match on code
          
- USING (code)
+    * USING (code)
        
 -- Where region like Melanesia and Micronesia       
        
