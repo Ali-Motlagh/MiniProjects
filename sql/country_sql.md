@@ -4,7 +4,7 @@ Extract country information like name and langauge and currency
 > for places with either Melanesia or Micronesia
 
 ## Task:
--- Select fields (with aliases)
+-- Select fields (with aliases)<p>
 SELECT countries.name AS country, region, languages.name AS langauge,
        basic_unit, frac_unit
 -- From countries (alias as c1)
