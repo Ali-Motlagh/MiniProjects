@@ -5,17 +5,19 @@ Extract country information like name and langauge and currency
 
 ## Task:
 -- Select fields (with aliases)<p>
-SELECT countries.name AS country, region, languages.name AS langauge,<p>
+SELECT countries.name AS country, region, languages.name AS langauge,
        basic_unit, frac_unit<p>
 -- From countries (alias as c1)<p>
 FROM countries AS c1<p>
   -- Join with languages (alias as l)<p>
   FULL JOIN languages AS l<p>
-    -- Match on code
-    USING (code)
+    -- Match on code<p>
+    USING (code)<p>
   -- Join with currencies (alias as c2)<p>
   FULL JOIN currencies AS c2
+         
     -- Match on code
+         
     USING (code)
        
 -- Where region like Melanesia and Micronesia
